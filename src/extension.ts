@@ -1,26 +1,23 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { spawn } from 'node:child_process';
+import { join } from 'node:path';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	const disposable = vscode.commands.registerCommand('ping-me.notify', () => {
+		vscode.window.showInformationMessage('AI response finished');
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "ping-me" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('ping-me.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from ping-me!');
+		const audioFilePath = join(context.extensionPath, 'media', 'task_completed.mp3');
+		const playerProcess = spawn('afplay', [audioFilePath], {
+			stdio: 'ignore',
+			detached: true,
+		});
+		playerProcess.on('error', (error) => {
+			console.error('Unable to play notification sound:', error);
+		});
+		playerProcess.unref();
 	});
 
 	context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}

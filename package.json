@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "ping-me.helloWorld",
-        "title": "Hello World"
+        "command": "ping-me.notify",
+        "title": "Ping Me: Notify"
       }
     ]
   },
