@@ -1,0 +1,6 @@
+{
+  "extension.description": "Reproduce un sonido y muestra una notificación cuando la IA termina de responder.",
+  "command.notify.title": "Ping Me: Notificar",
+  "config.automaticDetection.description": "Activa la detección automática de respuestas de la IA mediante un temporizador de inactividad. Si está desactivado, las notificaciones solo se disparan desde el manejador de URI o el comando manual.",
+  "config.enableUriHandler.description": "Activa el manejador de URI para que herramientas externas puedan disparar notificaciones ejecutando 'open vscode://yhondri.ping-me/notify'. Ideal para agentes de IA como Claude Code: añádelo como hook Stop en ~/.claude/settings.json para recibir una notificación cuando termine una tarea."
+}
