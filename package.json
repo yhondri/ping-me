@@ -1,5 +1,6 @@
 {
   "name": "ping-me",
+  "publisher": "yhondri",
   "displayName": "ping-me",
   "description": "Play a sound and show a notification when an AI response is ready.",
   "version": "0.0.1",
