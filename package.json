@@ -3,7 +3,12 @@
   "publisher": "yhondri",
   "displayName": "ping-me",
   "description": "Play a sound and show a notification when an AI response is ready.",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yhondri/ping-me.git"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.110.0"
   },
@@ -20,7 +25,22 @@
         "command": "ping-me.notify",
         "title": "Ping Me: Notify"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Ping Me",
+      "properties": {
+        "pingMe.automaticDetection": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic detection of AI responses via inactivity timer. When disabled, notifications only trigger via the URI handler or the command."
+        },
+        "pingMe.enableUriHandler": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the URI handler (vscode://yhondri.ping-me/notify) so external tools can trigger notifications via hook."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

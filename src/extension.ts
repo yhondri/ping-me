@@ -14,6 +14,8 @@ export function activate(context: vscode.ExtensionContext) {
     'task_completed.mp3',
   );
 
+  const getConfig = () => vscode.workspace.getConfiguration('pingMe');
+
   const showInformationNotification = () => {
     vscode.window.showInformationMessage('AI response finished');
   };
@@ -40,6 +42,10 @@ export function activate(context: vscode.ExtensionContext) {
   };
 
   const markActivity = () => {
+    if (!getConfig().get<boolean>('automaticDetection', true)) {
+      return;
+    }
+
     activityVersion += 1;
     const currentVersion = activityVersion;
     if (inactivityTimer) {
@@ -97,7 +103,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   const uriHandlerDisposable = vscode.window.registerUriHandler({
     handleUri(uri: vscode.Uri) {
-      if (uri.path === '/notify') {
+      if (uri.path === '/notify' && getConfig().get<boolean>('enableUriHandler', true)) {
         notifyCompletion();
       }
     },

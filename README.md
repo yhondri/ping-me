@@ -1,71 +1,64 @@
-# ping-me README
+# Ping Me
 
-This is the README for your extension "ping-me". After writing up a brief description, we recommend including the following sections.
+Play a sound and show a notification when an AI response is ready, so you can step away while the AI works.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Sound alert**: Plays a sound when the AI finishes responding.
+- **Notification**: Shows an information message "AI response finished" when VS Code regains focus.
+- **Smart detection**: Monitors document changes, file operations, and terminal activity to detect when the AI stops working.
+- **URI handler**: Supports triggering notifications via `vscode://yhondri.ping-me/notify`.
+- **Manual command**: Run `Ping Me: Notify` from the Command Palette to trigger a notification manually.
 
-For example if there is an image subfolder under your extension project workspace:
+## How It Works
 
-\!\[feature X\]\(images/feature-x.png\)
+The extension supports two modes:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Automatic**: Watches for activity (document edits, file operations, terminal executions). After 3 seconds of inactivity while VS Code is not focused, it plays a sound and queues a notification.
+- **Hook**: An external tool (e.g. Claude Code) triggers the notification explicitly via the URI `vscode://yhondri.ping-me/notify`.
+
+In both modes, the notification message is shown as soon as you switch back to VS Code.
+
+## Settings
+
+**`pingMe.automaticDetection`** (default: `true`)
+Enable automatic detection via inactivity timer. Set to `false` to disable timer-based notifications entirely.
+
+**`pingMe.enableUriHandler`** (default: `true`)
+Enable the URI handler so external tools (e.g. Claude Code hooks) can trigger notifications via `vscode://yhondri.ping-me/notify`. Set to `false` to disable it.
+
+### Using the URI handler with Claude Code
+
+With `pingMe.enableUriHandler` enabled, you can configure a Claude Code hook to notify you when a task finishes:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "open 'vscode://yhondri.ping-me/notify'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Credits
+
+- Notification sound: [Tarea completa.wav](https://freesound.org/s/541389/) by valeulloam97 — License: Creative Commons 0
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- macOS (uses `afplay` for audio playback).
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release.
