@@ -2,6 +2,8 @@
 
 A Visual Studio Code extension that plays a sound and shows a notification when your AI agent finishes a task, so you can step away and get notified the moment it's done.
 
+Available on the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=yhondri.ping-me).
+
 ## Features
 
 - **Sound alert**: Plays a sound when the AI finishes responding.
