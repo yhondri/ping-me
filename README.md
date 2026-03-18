@@ -59,6 +59,10 @@ With `pingMe.enableUriHandler` enabled, you can configure a Claude Code hook to 
 
 ## Release Notes
 
+### 1.0.1
+
+- Added extension icon.
+
 ### 1.0.0
 
 Initial release.
