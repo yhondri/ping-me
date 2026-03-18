@@ -1,6 +1,6 @@
 # Ping Me
 
-Play a sound and show a notification when an AI response is ready, so you can step away while the AI works.
+A Visual Studio Code extension that plays a sound and shows a notification when your AI agent finishes a task, so you can step away and get notified the moment it's done.
 
 ## Features
 
