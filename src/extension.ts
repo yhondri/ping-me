@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as l10n from '@vscode/l10n';
 import { spawn } from 'node:child_process';
 import { join } from 'node:path';
 
@@ -17,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
   const getConfig = () => vscode.workspace.getConfiguration('pingMe');
 
   const showInformationNotification = () => {
-    vscode.window.showInformationMessage('AI response finished');
+    vscode.window.showInformationMessage(l10n.t('AI response finished'));
   };
 
   const playNotificationSound = () => {

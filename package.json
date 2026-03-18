@@ -2,7 +2,7 @@
   "name": "ping-me",
   "publisher": "yhondri",
   "displayName": "ping-me",
-  "description": "Play a sound and show a notification when an AI response is ready.",
+  "description": "%extension.description%",
   "version": "1.0.0",
   "repository": {
     "type": "git",
@@ -19,11 +19,12 @@
     "onStartupFinished"
   ],
   "main": "./dist/extension.js",
+  "l10n": "./l10n",
   "contributes": {
     "commands": [
       {
         "command": "ping-me.notify",
-        "title": "Ping Me: Notify"
+        "title": "%command.notify.title%"
       }
     ],
     "configuration": {
@@ -32,12 +33,12 @@
         "pingMe.automaticDetection": {
           "type": "boolean",
           "default": true,
-          "description": "Enable automatic detection of AI responses via inactivity timer. When disabled, notifications only trigger via the URI handler or the command."
+          "description": "%config.automaticDetection.description%"
         },
         "pingMe.enableUriHandler": {
           "type": "boolean",
           "default": true,
-          "description": "Enable the URI handler (vscode://yhondri.ping-me/notify) so external tools can trigger notifications via hook."
+          "description": "%config.enableUriHandler.description%"
         }
       }
     }
@@ -57,15 +58,18 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.110.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.56.1",
-    "eslint": "^9.39.3",
+    "@types/vscode": "^1.110.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
     "esbuild": "^0.27.3",
+    "eslint": "^9.39.3",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript-eslint": "^8.56.1"
+  },
+  "dependencies": {
+    "@vscode/l10n": "^0.0.18"
   }
 }
