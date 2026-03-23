@@ -120,10 +120,4 @@ Then run your tasks through it:
 
 ## Release Notes
 
-### 1.0.1
-
-- Added extension icon.
-
-### 1.0.0
-
-Initial release.
+See [CHANGELOG.md](CHANGELOG.md).
