@@ -77,6 +77,39 @@ The `/permissionRequest` URI shows a "Permission needed" message including the p
 
 The notification will read: `Permission needed [my-project] (/path/to/my-project)`
 
+### Using the URI handler with Codex (or any CLI agent)
+
+If your tool does not provide native hooks, you can still trigger Ping Me after a task by running the tool through a shell wrapper and calling the URI when it exits.
+
+**One-off command:**
+
+```bash
+your-agent-command; open 'vscode://yhondri.ping-me/notify'
+```
+
+**Reusable script (`~/bin/agent-with-ping`):**
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+status=0
+"$@" || status=$?
+open 'vscode://yhondri.ping-me/notify'
+exit "$status"
+```
+
+Make it executable:
+
+```bash
+chmod +x ~/bin/agent-with-ping
+```
+
+Then run your tasks through it:
+
+```bash
+~/bin/agent-with-ping your-agent-command --your-flags
+```
+
 ## Credits
 
 - Notification sound: [Tarea completa.wav](https://freesound.org/s/541389/) by valeulloam97 — License: Creative Commons 0
