@@ -31,7 +31,9 @@ Enable the URI handler so external tools (e.g. Claude Code hooks) can trigger no
 
 ### Using the URI handler with Claude Code
 
-With `pingMe.enableUriHandler` enabled, you can configure a Claude Code hook to notify you when a task finishes:
+With `pingMe.enableUriHandler` enabled, you can configure Claude Code hooks in `~/.claude/settings.json`.
+
+**Notify when a task finishes (`Stop` hook):**
 
 ```json
 {
@@ -50,6 +52,30 @@ With `pingMe.enableUriHandler` enabled, you can configure a Claude Code hook to 
   }
 }
 ```
+
+**Notify when the agent needs permission (`PermissionRequest` hook, e.g. Claude Code):**
+
+The `/permissionRequest` URI shows a "Permission needed" message including the project name and path, so you know which window to switch to when working with multiple projects open simultaneously.
+
+```json
+{
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "open \"vscode://yhondri.ping-me/permissionRequest?project=$(basename $PWD)&path=$PWD\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+The notification will read: `Permission needed [my-project] (/path/to/my-project)`
 
 ## Credits
 

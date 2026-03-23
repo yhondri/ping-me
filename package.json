@@ -26,6 +26,10 @@
       {
         "command": "ping-me.notify",
         "title": "%command.notify.title%"
+      },
+      {
+        "command": "ping-me.permissionRequest",
+        "title": "%command.permissionRequest.title%"
       }
     ],
     "configuration": {

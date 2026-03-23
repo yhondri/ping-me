@@ -1,6 +1,7 @@
 {
   "extension.description": "Play a sound and show a notification when an AI response is ready.",
   "command.notify.title": "Ping Me: Notify",
+  "command.permissionRequest.title": "Ping Me: Permission Request",
   "config.automaticDetection.description": "Enable automatic detection of AI responses via inactivity timer. When disabled, notifications only trigger via the URI handler or the command.",
   "config.enableUriHandler.description": "Enable the URI handler so external tools can trigger notifications by calling 'open vscode://yhondri.ping-me/notify'. Useful for AI agents like Claude Code: add it as a Stop hook in ~/.claude/settings.json to get notified when a task finishes."
 }

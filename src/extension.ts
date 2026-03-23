@@ -17,8 +17,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   const getConfig = () => vscode.workspace.getConfiguration('pingMe');
 
-  const showInformationNotification = () => {
-    vscode.window.showInformationMessage(l10n.t('AI response finished'));
+  const showInformationNotification = (message?: string) => {
+    vscode.window.showInformationMessage(message ?? l10n.t('AI response finished'));
   };
 
   const playNotificationSound = () => {
@@ -32,13 +32,16 @@ export function activate(context: vscode.ExtensionContext) {
     playerProcess.unref();
   };
 
-  const notifyCompletion = () => {
+  let pendingMessage: string | undefined;
+
+  const notifyCompletion = (message?: string) => {
     playNotificationSound();
     if (vscode.window.state.focused) {
       pendingInformationMessage = false;
-      showInformationNotification();
+      showInformationNotification(message);
       return;
     }
+    pendingMessage = message;
     pendingInformationMessage = true;
   };
 
@@ -91,7 +94,9 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
       pendingInformationMessage = false;
-      showInformationNotification();
+      const message = pendingMessage;
+      pendingMessage = undefined;
+      showInformationNotification(message);
     },
   );
 
@@ -102,10 +107,30 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
+  const permissionRequestCommandDisposable = vscode.commands.registerCommand(
+    'ping-me.permissionRequest',
+    () => {
+      const workspaceName = vscode.workspace.name ?? 'Unknown';
+      const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? '';
+      const detail = workspacePath ? ` [${workspaceName}] (${workspacePath})` : ` [${workspaceName}]`;
+      notifyCompletion(l10n.t('Permission needed') + detail);
+    },
+  );
+
   const uriHandlerDisposable = vscode.window.registerUriHandler({
     handleUri(uri: vscode.Uri) {
-      if (uri.path === '/notify' && getConfig().get<boolean>('enableUriHandler', true)) {
-        notifyCompletion();
+      if (!getConfig().get<boolean>('enableUriHandler', true)) {
+        return;
+      }
+      const params = new URLSearchParams(uri.query);
+      if (uri.path === '/notify') {
+        const message = params.get('message') ?? undefined;
+        notifyCompletion(message);
+      } else if (uri.path === '/permissionRequest') {
+        const project = params.get('project');
+        const path = params.get('path');
+        const detail = project && path ? ` [${project}] (${path})` : project ? ` [${project}]` : '';
+        notifyCompletion(l10n.t('Permission needed') + detail);
       }
     },
   });
@@ -118,6 +143,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(onDidRenameFilesDisposable);
   context.subscriptions.push(onDidChangeWindowStateDisposable);
   context.subscriptions.push(notifyCommandDisposable);
+  context.subscriptions.push(permissionRequestCommandDisposable);
   context.subscriptions.push({
     dispose: () => {
       if (inactivityTimer) {
